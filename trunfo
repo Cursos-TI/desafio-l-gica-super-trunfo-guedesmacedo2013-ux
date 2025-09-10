@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+typedef struct {
+    char nome[30];
+    int forca;
+    int velocidade;
+    int inteligencia;
+} Carta;
+
+// Função para imprimir carta
+void mostrarCarta(Carta c) {
+    printf("\n--- %s ---\n", c.nome);
+    printf("Forca: %d\n", c.forca);
+    printf("Velocidade: %d\n", c.velocidade);
+    printf("Inteligencia: %d\n", c.inteligencia);
+}
+
+int main() {
+    srand(time(NULL));
+
+    // Criação de um baralho simples
+    Carta baralho[4] = {
+        {"Dragao", 90, 60, 50},
+        {"Guerreiro", 70, 80, 40},
+        {"Mago", 40, 50, 95},
+        {"Gigante", 85, 40, 30}
+    };
+
+    // Sorteio de cartas para jogador e computador
+    int idxJog = rand() % 4;
+    int idxCPU = rand() % 4;
+    while (idxCPU == idxJog) idxCPU = rand() % 4;
+
+    Carta jog = baralho[idxJog];
+    Carta cpu = baralho[idxCPU];
+
+    printf("Sua carta:");
+    mostrarCarta(jog);
+
+    int escolha;
+    printf("\nEscolha o atributo para competir:\n");
+    printf("1 - Forca\n2 - Velocidade\n3 - Inteligencia\n");
+    scanf("%d", &escolha);
+
+    printf("\nCarta do Computador:");
+    mostrarCarta(cpu);
+
+    int valorJog, valorCPU;
+
+    // Estrutura de decisão: qual atributo comparar
+    switch (escolha) {
+        case 1:
+            valorJog = jog.forca;
+            valorCPU = cpu.forca;
+            break;
+        case 2:
+            valorJog = jog.velocidade;
+            valorCPU = cpu.velocidade;
+            break;
+        case 3:
+            valorJog = jog.inteligencia;
+            valorCPU = cpu.inteligencia;
+            break;
+        default:
+            printf("Escolha invalida!\n");
+            return 0;
+    }
+
+    printf("\nResultado: ");
+    if (valorJog > valorCPU) {
+        printf("Voce venceu! (%d vs %d)\n", valorJog, valorCPU);
+    } else if (valorJog < valorCPU) {
+        printf("Computador venceu! (%d vs %d)\n", valorCPU, valorJog);
+    } else {
+        printf("Empate! (%d vs %d)\n", valorJog, valorCPU);
+    }
+
+    return 0;
+}
